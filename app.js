@@ -18,13 +18,22 @@ app.get('/feedback', (req, res) => {
 })
 
 app.post('/feedback', (req, res) => {
-  console.log(req.body)
   const addFeedback = async () => {
     const newFeedback = new Feedback({ id: req.body.id, text: req.body.text, rating: req.body.rating })
     await newFeedback.save()
     console.log(`saved ${newFeedback}`)
+    res.status(200).json(newFeedback)
   };
   addFeedback();
+})
+
+app.delete('/feedback/:id', (req, res) => {
+  const deleteFeedback = async () => {
+    const feedback = await Feedback.deleteOne({ id: req.params.id })
+    console.log(`removed ${feedback}`)
+    res.status(200).json(feedback)
+  }
+  deleteFeedback();
 })
 
 app.listen(port, () => {

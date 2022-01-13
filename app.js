@@ -7,7 +7,15 @@ const app = express()
 const port = 3000
 const Feedback = require('./models/feedback')
 
+//allow access to req.body
 app.use(bodyParser.json());
+
+//cors
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 app.get('/feedback', (req, res, next) => {
   const displayFeedback = async () => {
